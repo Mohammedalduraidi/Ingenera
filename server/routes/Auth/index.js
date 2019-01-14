@@ -13,9 +13,8 @@ const login = require('./login');
 /*
     Routes
 */
-
-router.post('/register', register);
-router.post('/register/:type', register);
+console.log("here")
+router.post('/signup', register);
 router.post('/login', login);
 router.get('/logout', baseAuth, logout);
 

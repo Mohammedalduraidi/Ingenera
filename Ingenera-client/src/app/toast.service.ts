@@ -11,7 +11,7 @@ export class ToastService {
 
 
   presentToast(msg) {
-    this.toastr.successToastr(msg, 'Ingenera project', {
+    this.toastr.successToastr(msg, 'Ingenera', {
       position: 'bottom-right',
       toastTimeout: 5000,
       dismiss: 'dismissed',
@@ -22,7 +22,7 @@ export class ToastService {
   }
 
   showErorr(msg) {
-    this.toastr.errorToastr(msg, 'Ingenera project', {
+    this.toastr.errorToastr(msg, 'Ingenera', {
       position: 'bottom-right',
       toastTimeout: 5000,
       dismiss: 'dismissed',

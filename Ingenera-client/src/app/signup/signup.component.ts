@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import axios from 'axios';
 import { ToastService } from '../toast.service';
-
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+let agree = false
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
@@ -23,7 +24,8 @@ export class SignupComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    public toast: ToastService) {
+    public toast: ToastService,
+    public dialog: MatDialog, ) {
 
 
   }
@@ -33,11 +35,14 @@ export class SignupComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
 
   }
 
+  TermsModal() {
+    this.dialog.open(Terms);
+  }
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
 
@@ -45,6 +50,7 @@ export class SignupComponent implements OnInit {
     this.warning = "";
   }
   onSubmit() {
+    const { firstName, lastName, email, password } = this.registerForm.value;
     this.submitted = true;
     if (this.access.length === 0) {
       this.warning = "Please select a type";
@@ -53,11 +59,36 @@ export class SignupComponent implements OnInit {
     if (this.registerForm.invalid) {
       return;
     }
-    if (this.access === 'pm') {
-      this.toast.presentToast("project manager is wroking");
+    if (agree) {
+      axios.post('/api/auth/signup', { firstName, lastName, email, password, userType: this.access, acceptTerms: true })
+        .then(({ data }) => {
+          this.toast.presentToast(data.message)
+        }).catch(err => {
+          console.log(err)
+        })
     } else {
-      this.toast.showErorr("error toast is working");
+      this.toast.showErorr("please accept terms and condition");
     }
-    const { email, password } = this.registerForm.value;
+
+  }
+}
+
+
+@Component({
+  selector: 'terms-Modal',
+  templateUrl: 'terms-Modal.html',
+})
+export class Terms {
+  constructor(
+    public dialogRef: MatDialogRef<SignupComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: Terms,
+    private router: Router) { }
+
+  cancel = (): void => {
+    this.dialogRef.close();
+  }
+  Agree() {
+    agree = true
+    this.dialogRef.close()
   }
 }

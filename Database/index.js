@@ -15,10 +15,15 @@ db.once('open', () => {
 let Schema = mongoose.Schema; // Create a mongoose schema
 
 let Client = new Schema({
-	familyName: { type: String },
+	lastName: { type: String },
 	firstName: { type: String },
 	email: { type: String },
-	password: { type: String }
+	password: { type: String },
+	acceptTerms: { type: Boolean },
+	userType: {
+		type: String,
+		enum: ["Admin", "pm", "bm"]
+	}
 });
 
 let client = mongoose.model('Client', Client);

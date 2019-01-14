@@ -4,14 +4,15 @@ const config = require('../../utils/config');
 const { client } = require('../../../Database/index');
 
 module.exports = register = async (req, res) => {
-	const { firstName, email, password, accepted } = req.body;
-	accepted ? client.find({ email: email }, (err, data) => {
+	const { firstName, email, password, acceptTerms, userType } = req.body;
+	console.log(firstName, email, password, acceptTerms, userType)
+	client.find({ email: email }, (err, data) => {
 		if (err) {
 			res.sendStatus(500);
 		} else if (data.length > 0) {
 			res.send({
 				err: { code: 'ALR_EXC' },
-				message: 'User Already Excits'
+				message: 'User Already Exist'
 			});
 		} else {
 			hash(password, 10, (err, hash) => {
@@ -30,10 +31,4 @@ module.exports = register = async (req, res) => {
 			});
 		}
 	})
-		: res.send({
-			err: {
-				code: 'ACC'
-			},
-			message: 'Please Accept The Terms And Conditions To Proceed'
-		});
 };
