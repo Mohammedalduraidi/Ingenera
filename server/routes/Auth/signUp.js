@@ -12,12 +12,21 @@ const { client } = require('../../../Database/index');
 // 	}
 // })
 
-var mailOptions = {
-	from: 'mohd.alduraidi@gmail.com',
-	to: 'nonosyousef@gmail.com',
-	subject: 'Sign up successfuly',
-	text: 'lakaad matataaaaaaaag!!'
-};
+// var mailOptions = {
+// 	from: 'mohd.alduraidi@gmail.com',
+// 	to: 'nonosyousef@gmail.com',
+// 	subject: 'Sign up successfuly',
+// 	text: 'lakaad matataaaaaaaag!!'
+// };
+
+// transporter.sendMail(mailOptions, (err, res) => {
+// 	if (err) {
+// 		console.log('Error', err);
+// 		return;
+// 	} else {
+// 		console.log('Email Sent');
+// 	}
+// })
 
 module.exports = register = async (req, res) => {
 	const { firstName, email, password, acceptTerms, userType } = req.body;
@@ -42,14 +51,7 @@ module.exports = register = async (req, res) => {
 						res.sentStatus(500);
 					}
 					const token = jwt.sign(req.body, config.secret);
-					transporter.sendMail(mailOptions, (err, res) => {
-						if (err) {
-							console.log('Error', err);
-							return;
-						} else {
-							console.log('Email Sent');
-						}
-					})
+
 					res.send({ token, valid: true, message: `Welcome ${firstName}` });
 				});
 			});
