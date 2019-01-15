@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 //import allcomponent.ts 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent, ForgetPasswrod } from './login/login.component';
 import { SignupComponent, Terms } from './signup/signup.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { HomeComponent } from './home/home.component';
@@ -33,7 +33,8 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     ResetPasswordComponent,
     HomeComponent,
     Terms,
-    LandingComponent
+    LandingComponent,
+    ForgetPasswrod
   ],
   imports: [
     BrowserModule,
@@ -61,7 +62,8 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     MatSelectModule
   ],
   entryComponents: [
-    Terms
+    Terms,
+    ForgetPasswrod
   ],
   providers: [ToastService],
   bootstrap: [AppComponent]
