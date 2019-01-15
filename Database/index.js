@@ -20,10 +20,12 @@ let Client = new Schema({
 	email: { type: String },
 	password: { type: String },
 	acceptTerms: { type: Boolean },
+	resetPasswordToken: { type: String },
 	userType: {
 		type: String,
 		enum: ["Admin", "pm", "bm"]
-	}
+	},
+	resetPasswordExpires: { type: Date }
 });
 
 let client = mongoose.model('Client', Client);

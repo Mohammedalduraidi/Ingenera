@@ -4,14 +4,14 @@ const { compare } = require('bcryptjs');
 const { client } = require('../../../Database/index');
 
 module.exports = login = (req, res) => {
-	const { email, password, userType } = req.body;
+	const { email, password } = req.body;
 	client.findOne({ email }, (err, data) => {
 		if (err) {
 			res.sendStatus(500);
 		} else if (!data) {
 			res.send({
 				err: { code: 404 },
-				message: 'User Does Not Exist'
+				message: 'User Does Not Exist' 
 			});
 		} else {
 			compare(data.password, password, (err, match) => {

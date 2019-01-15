@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const baseAuth = require('../access-controll/base-auth')
+
+
 
 /* GET home page. */
 const authController = require('./Auth/index');
