@@ -36,6 +36,7 @@ export class SignupComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
 
   }
@@ -50,7 +51,7 @@ export class SignupComponent implements OnInit {
     this.warning = "";
   }
   onSubmit() {
-    const { firstName, lastName, email, password } = this.registerForm.value;
+    const { firstName, lastName, email, password, confirmPassword } = this.registerForm.value;
     this.submitted = true;
     if (this.access.length === 0) {
       this.warning = "Please select a type";
@@ -60,12 +61,24 @@ export class SignupComponent implements OnInit {
       return;
     }
     if (agree) {
-      axios.post('/api/auth/signup', { firstName, lastName, email, password, userType: this.access, acceptTerms: true })
-        .then(({ data }) => {
-          this.toast.presentToast(data.message)
-        }).catch(err => {
-          console.log(err)
-        })
+      if (password === confirmPassword) {
+        axios.post('/api/auth/signup', { firstName, lastName, email, password, userType: this.access, acceptTerms: true })
+          .then(({ data }) => {
+            if (data.err.code === 409) {
+              this.toast.showErorr(data.message)
+            } else {
+              this.toast.presentToast(data.message)
+              //* i should save his token in the local staorge!
+              //* i should navigate him to the home page!
+            }
+          }).catch(err => {
+            console.log(err)
+            this.toast.showErorr('Error Occurred')
+          })
+      }
+      else {
+        this.toast.showErorr("Password doesn't match. Please rewrite it again");
+      }
     } else {
       this.toast.showErorr("please accept terms and condition");
     }

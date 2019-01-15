@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastService } from '../toast.service'
+import axios from 'axios';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
     this.warning = "";
   }
   onSubmit() {
+    const { email, password } = this.loginForm.value;
     this.submitted = true;
     if (this.access.length === 0) {
       this.warning = "Please select a type";
@@ -44,11 +46,19 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-    if (this.access === 'pm') {
-      this.toast.presentToast("project manager is wroking");
-    } else {
-      this.toast.showErorr("error toast is working");
-    }
-    const { email, password } = this.loginForm.value;
+    axios.post('api/auth/login', { email, password, userType: this.access })
+      .then(({ data }) => {
+        if (data.err.code === 404) {
+          this.toast.showErorr(data.message)
+        } else {
+          this.toast.presentToast(data.message)
+          //* i should save his token in the local staorge!
+          //* i should navigate him to the home page!
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        this.toast.showErorr('Error Occurred')
+      })
   }
 }

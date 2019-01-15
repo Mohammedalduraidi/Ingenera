@@ -11,7 +11,6 @@ const { client } = require('../../../Database/index');
 // 		pass: 'backstreet boys'
 // 	}
 // })
-
 // var mailOptions = {
 // 	from: 'mohd.alduraidi@gmail.com',
 // 	to: 'nonosyousef@gmail.com',
@@ -36,7 +35,7 @@ module.exports = register = async (req, res) => {
 			res.sendStatus(500);
 		} else if (data.length > 0) {
 			res.send({
-				err: { code: 'ALR_EXC' },
+				err: { code: 409 },
 				message: 'User Already Exist'
 			});
 		} else {
