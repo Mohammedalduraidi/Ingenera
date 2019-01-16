@@ -18,7 +18,7 @@ module.exports = login = (req, res) => {
 				if (err) {
 					res.sendStatus(500);
 				}
-				const token = jwt.sign({ email, id: data._id }, config.secret);
+				const token = jwt.sign({ userType: data.userType, email, id: data._id }, config.secret);
 				res.send({ userType: data.userType, token, message: `Welcome Back ${data.firstName}` });
 			});
 		}

@@ -15,17 +15,17 @@ exports.forgetPass = (req, res, next) => {
         },
         (token, done) => {
             client.find({
-                _id: req.params.id
+                email
             }, (err, user) => {
                 if (err) {
-                    console.log("hi", err);
+                    res.sendStatus(500);
                     return;
                 }
-                if (!user) {
-                    console.log('error email not found : ', err)
+                if (user.length === 0) { // if email does not exist
+                    res.send({ code: 404, message: 'Email is worng' });
                     return;
                 }
-                client.updateOne({ _id: req.params.id }, {
+                client.updateOne({ _id: user._id }, {
                     $set: {
                         resetPasswordToken: token,
                         resetPasswordExpires: Date.now() + 3600000
@@ -45,7 +45,7 @@ exports.forgetPass = (req, res, next) => {
                 service: 'Gmail',
                 auth: {
                     user: 'mohd.alduraidi@gmail.com',
-                    pass: process.env.EMAIL_PASS
+                    pass: 'backstreet boys'
                 }
             });
             var mailOptions = {

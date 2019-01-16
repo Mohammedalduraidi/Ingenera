@@ -13,6 +13,7 @@ export class RoleGuardService implements CanActivate {
     }
     canActivate(route: ActivatedRouteSnapshot): boolean {
         if (!this.auth.isLoggedIn()) {
+            localStorage.clear()
             this.router.navigate(['login']);
             return false;
         }
@@ -25,6 +26,7 @@ export class RoleGuardService implements CanActivate {
         if (
             tokenPayload.userType !== expectedRole
         ) {
+            localStorage.clear();
             this.router.navigate(['login']);
             return false;
         }

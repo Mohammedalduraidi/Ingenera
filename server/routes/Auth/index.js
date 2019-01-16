@@ -14,7 +14,7 @@ const login = require('./login');
     Routes
 */
 
-router.post('/forgot/:id' , passCtrl.forgetPass)
+router.post('/forgot', passCtrl.forgetPass)
 router.post('/signup', register);
 router.post('/login', login);
 router.get('/logout', baseAuth, logout);

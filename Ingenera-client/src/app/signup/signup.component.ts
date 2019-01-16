@@ -57,6 +57,7 @@ export class SignupComponent implements OnInit {
   }
   onSubmit() {
     this.submitted = true;
+
     const { firstName, lastName, email, password, confirmPassword } = this.registerForm.value;
 
     if (this.access.length === 0) {
@@ -69,8 +70,10 @@ export class SignupComponent implements OnInit {
     }
     if (agree) {
       if (password === confirmPassword) {
+        this.loading = true;
         axios.post('/api/auth/signup', { firstName, lastName, email, password, userType: this.access, acceptTerms: true })
           .then(({ data }) => {
+            this.loading = false;
             if (data.status === 409) {
               this.toast.showErorr(data.message)
             } else {
