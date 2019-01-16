@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import axios from 'axios';
 import { ToastService } from '../toast.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import decode from 'jwt-decode';
 let agree = false
 @Component({
   selector: 'app-signup',
@@ -73,10 +74,14 @@ export class SignupComponent implements OnInit {
             if (data.status === 409) {
               this.toast.showErorr(data.message)
             } else {
-              console.log(data)
+              localStorage.setItem("token", data.token)
+              localStorage.setItem("loggedIn", 'true')
+              if (data.userType === 'bm') {
+                this.router.navigate(['bmHome'])
+              } else {
+                this.router.navigate(['landing'])
+              }
               this.toast.presentToast(data.message)
-              //* i should save his token in the local staorge!
-              //* i should navigate him to the home page!
             }
           }).catch(err => {
             console.log(err)

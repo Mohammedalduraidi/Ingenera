@@ -11,7 +11,7 @@ module.exports = login = (req, res) => {
 		} else if (!data) {
 			res.send({
 				err: { code: 404 },
-				message: 'User Does Not Exist' 
+				message: 'User Does Not Exist'
 			});
 		} else {
 			compare(data.password, password, (err, match) => {
@@ -19,7 +19,7 @@ module.exports = login = (req, res) => {
 					res.sendStatus(500);
 				}
 				const token = jwt.sign({ email, id: data._id }, config.secret);
-				res.send({ token, message: `Welcome Back ${data.firstName}` });
+				res.send({ userType: data.userType, token, message: `Welcome Back ${data.firstName}` });
 			});
 		}
 	});

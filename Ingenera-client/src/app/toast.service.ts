@@ -9,7 +9,6 @@ export class ToastService {
 
   }
 
-
   presentToast(msg) {
     this.toastr.successToastr(msg, 'Ingenera', {
       position: 'bottom-right',

@@ -26,7 +26,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     public toast: ToastService,
-    public dialog: MatDialog, ) { }
+    public dialog: MatDialog,
+    private router: Router, ) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -58,12 +59,18 @@ export class LoginComponent implements OnInit {
     }
     axios.post('api/auth/login', { email, password, userType: this.access })
       .then(({ data }) => {
-        if (data.err.code === 404) {
+        if (data.status === 409) {
           this.toast.showErorr(data.message)
         } else {
+          console.log(data)
+          localStorage.setItem("token", data.token)
+          localStorage.setItem("loggedIn", 'true')
+          if (data.userType === 'bm') {
+            this.router.navigate(['bmHome'])
+          } else {
+            this.router.navigate(['landing'])
+          }
           this.toast.presentToast(data.message)
-          //* i should save his token in the local staorge!
-          //* i should navigate him to the home page!
         }
       })
       .catch(err => {

@@ -15,6 +15,7 @@ import { LandingComponent } from './projectManager/landing/landing.component';
 
 
 import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import {
   MatButtonModule,
   MatFormFieldModule,
@@ -24,6 +25,10 @@ import {
   MatSelectModule,
 } from '@angular/material';
 import { ToastrModule } from 'ng6-toastr-notifications';
+import { BmHomeComponent } from './bussinessManager/bm-home/bm-home.component';
+
+import { AuthServiceService } from './security/auth-service.service'
+import { RoleGuardService } from './security/role-guard.service'
 
 @NgModule({
   declarations: [
@@ -34,7 +39,9 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     HomeComponent,
     Terms,
     LandingComponent,
-    ForgetPasswrod
+    ForgetPasswrod,
+    BmHomeComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,7 @@ import { ToastrModule } from 'ng6-toastr-notifications';
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
   ],
   exports: [
     MatButtonModule,
@@ -63,9 +70,9 @@ import { ToastrModule } from 'ng6-toastr-notifications';
   ],
   entryComponents: [
     Terms,
-    ForgetPasswrod
+    ForgetPasswrod,
   ],
-  providers: [ToastService],
+  providers: [ToastService, AuthServiceService, RoleGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
