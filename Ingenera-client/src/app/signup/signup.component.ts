@@ -44,7 +44,9 @@ export class SignupComponent implements OnInit {
   }
 
   TermsModal() {
+    this.submitted = false;
     this.dialog.open(Terms);
+    this.dialog.afterOpen.closed
   }
   // convenience getter for easy access to form fields
   get f() { return this.registerForm.controls; }
@@ -53,12 +55,14 @@ export class SignupComponent implements OnInit {
     this.warning = "";
   }
   onSubmit() {
-    const { firstName, lastName, email, password, confirmPassword } = this.registerForm.value;
     this.submitted = true;
+    const { firstName, lastName, email, password, confirmPassword } = this.registerForm.value;
+
     if (this.access.length === 0) {
       this.warning = "Please select a type";
       return;
     }
+
     if (this.registerForm.invalid) {
       return;
     }
@@ -66,9 +70,10 @@ export class SignupComponent implements OnInit {
       if (password === confirmPassword) {
         axios.post('/api/auth/signup', { firstName, lastName, email, password, userType: this.access, acceptTerms: true })
           .then(({ data }) => {
-            if (data.err.code === 409) {
+            if (data.status === 409) {
               this.toast.showErorr(data.message)
             } else {
+              console.log(data)
               this.toast.presentToast(data.message)
               //* i should save his token in the local staorge!
               //* i should navigate him to the home page!
@@ -82,6 +87,7 @@ export class SignupComponent implements OnInit {
         this.toast.showErorr("Password doesn't match. Please rewrite it again");
       }
     } else {
+
       this.toast.showErorr("please accept terms and condition");
     }
 

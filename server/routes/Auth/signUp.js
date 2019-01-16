@@ -36,7 +36,7 @@ module.exports = register = async (req, res) => {
 			res.sendStatus(500);
 		} else if (data.length > 0) {
 			res.send({
-				err: { code: 409},
+				status: 409,
 				message: 'User Already Exist'
 			});
 		} else {
@@ -52,7 +52,7 @@ module.exports = register = async (req, res) => {
 					}
 					const token = jwt.sign(req.body, config.secret);
 
-					res.send({ token, valid: true, message: `Welcome ${firstName}` });
+					res.send({ status: 200, token, valid: true, userType, message: `Welcome ${firstName}` });
 				});
 			});
 		}

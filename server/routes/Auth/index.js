@@ -13,7 +13,7 @@ const login = require('./login');
 /*
     Routes
 */
-console.log("here")
+
 router.post('/forgot/:id' , passCtrl.forgetPass)
 router.post('/signup', register);
 router.post('/login', login);

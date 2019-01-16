@@ -6,7 +6,6 @@ const { client } = require('../../../Database')
 
 exports.forgetPass = (req, res, next) => {
     const { email } = req.body
-
     async.waterfall([
         (done) => {
             crypto.randomBytes(20, (err, buf) => {
