@@ -8,7 +8,7 @@ const { client } = require('../../../Database/index');
 // 	service: 'gmail',
 // 	auth: {
 // 		user: 'mohd.alduraidi@gmail.com',
-// 		pass: 'backstreet boys'
+// 		pass: process.env.EMAIL_PASSWORD
 // 	}
 // })
 
