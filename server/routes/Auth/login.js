@@ -18,8 +18,16 @@ module.exports = login = (req, res) => {
 				if (err) {
 					res.sendStatus(500);
 				}
-				const token = jwt.sign({ userType: data.userType, email, id: data._id }, config.secret);
-				res.send({ userType: data.userType, token, message: `Welcome Back ${data.firstName}` });
+				const token = jwt.sign({ userType: data.userType, 
+					email, id: data._id }, config.secret);
+				res.send({
+					userType: data.userType,
+					token,
+					message: `Welcome Back ${data.firstName}`,
+					routes: data.userType === "pm" ?
+						"landing" : data.userType === "bm" ?
+							'bmHome' : 'adminHome'
+				});
 			});
 		}
 	});

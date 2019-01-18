@@ -54,11 +54,7 @@ export class LoginComponent implements OnInit {
         } else {
           localStorage.setItem("token", data.token)
           localStorage.setItem("loggedIn", 'true')
-          if (data.userType === 'bm') {
-            this.router.navigate(['bmHome'])
-          } else {
-            this.router.navigate(['landing'])
-          }
+          this.router.navigate([data.routes])
           this.toast.presentToast(data.message)
         }
       })
