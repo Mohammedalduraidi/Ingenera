@@ -48,8 +48,9 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     axios.post('api/auth/login', { email, password })
       .then(({ data }) => {
+        console.log("data ", data)
         this.loading = false;
-        if (data.status === 409) {
+        if (data.code === 409) {
           this.toast.showErorr(data.message)
         } else {
           localStorage.setItem("token", data.token)
@@ -60,7 +61,7 @@ export class LoginComponent implements OnInit {
       })
       .catch(err => {
         console.log(err)
-        this.toast.showErorr('Error Occurred')
+        this.toast.showErorr('Error Occurred, please check your internet')
       })
   }
 }
@@ -102,6 +103,7 @@ export class ForgetPasswrod {
     this.loading = true;
     axios.post('api/auth/forgot', { email })
       .then(({ data }) => {
+        console.log(data)
         this.loading = false;
         if (data.code === 200) {
           this.toast.presentToast(data.message)
@@ -113,7 +115,7 @@ export class ForgetPasswrod {
       })
       .catch(err => {
         console.log(err);
-        this.toast.showErorr("Server Erorr")
+        this.toast.showErorr("Server Erorr, Please  check your ineternet")
       })
   }
 }

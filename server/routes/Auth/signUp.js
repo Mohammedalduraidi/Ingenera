@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { hash } = require('bcryptjs');
 const config = require('../../utils/config');
-const { client } = require('../../../Database/index');
+const { users } = require('../../../Database/index');
 // const nodemailer = require('nodemailer');
 
 // var transporter = nodemailer.createTransport({
@@ -31,7 +31,7 @@ const { client } = require('../../../Database/index');
 module.exports = register = async (req, res) => {
 	const { firstName, email, password, acceptTerms, userType } = req.body;
 	console.log(firstName, email, password, acceptTerms, userType)
-	client.find({ email: email }, (err, data) => {
+	users.find({ email: email }, (err, data) => {
 		if (err) {
 			res.sendStatus(500);
 		} else if (data.length > 0) {
@@ -44,9 +44,9 @@ module.exports = register = async (req, res) => {
 				if (err) {
 					res.sendStatus(500);
 				}
-				const newClient = new client({ ...req.body, password: hash });
+				const newUsers = new users({ ...req.body, password: hash });
 
-				newClient.save((err) => {
+				newUsers.save((err) => {
 					if (err) {
 						res.sentStatus(500);
 					}

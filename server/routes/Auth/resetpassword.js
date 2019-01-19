@@ -1,8 +1,8 @@
 const async = require('async');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer')
-const { client } = require('../../../Database')
-
+const { users } = require('../../../Database')
+const { hash } = require('bcryptjs');
 
 exports.forgetPass = (req, res, next) => {
     const { email } = req.body
@@ -14,7 +14,7 @@ exports.forgetPass = (req, res, next) => {
             });
         },
         (token, done) => {
-            client.find({
+            users.findOne({
                 email
             }, (err, user) => {
                 if (err) {
@@ -25,7 +25,7 @@ exports.forgetPass = (req, res, next) => {
                     res.send({ code: 404, message: 'Email is worng' });
                     return;
                 }
-                client.updateOne({ _id: user._id }, {
+                users.findOneAndUpdate({ _id: user._id }, {
                     $set: {
                         resetPasswordToken: token,
                         resetPasswordExpires: Date.now() + 3600000
@@ -120,7 +120,7 @@ exports.forgetPass = (req, res, next) => {
                 
                                             <br/><br/>
                 
-                                            To reset your password  , <a href="http://localhost:3000/reset/${token}">please follow this link</a>
+                                            To reset your password  , <a href="http://localhost:3001/reset/${token}/${email}">please follow this link</a>
                 
                                             <br/><br/>
                 
@@ -149,6 +149,7 @@ exports.forgetPass = (req, res, next) => {
             };
             smtpTransport.sendMail(mailOptions, (err) => {
                 if (err) {
+                    res.sendStatus(500);
                     console.log(err);
                     return;
                 }
@@ -167,38 +168,48 @@ exports.forgetPass = (req, res, next) => {
 
 
 exports.resetPass = (req, res) => {
-    const { token, id, newPass } = req.body;
-    console.log(token, id, newPass);
-    client.find({
-        _id: id
+    const { token, email, newPass } = req.body;
+    console.log(token, newPass);
+    users.findOne({
+        email
     }, (err, data) => {
+
         if (err) {
             console.log(err);
+            res.sendStatus(500);
             return;
         }
-        if (Date.now() < parseInt(data.resetPasswordExpires) && token === data.resetPasswordToken) {
-            bcrypt.hash(newPass, 10, (err, hash) => {
+        if (Date.now() <= parseInt(data.resetPasswordExpires) && token === data.resetPasswordToken) {
+
+            hash(newPass, 10, (err, hash) => {
                 if (err) {
                     console.log(err);
+                    res.sendStatus(500);
                     return;
                 }
-                client.update({ _id: id }, {
+                users.findOneAndUpdate({ email }, {
                     $set: {
                         password: hash
                     }
                 }, (err, data) => {
+
                     if (err) {
                         res.sendStatus(400)
                         console.log(err);
                         return;
                     }
-                    res.sendStatus(200)
+                    res.send({
+                        code: 200,
+                        message: 'Your password has been changed'
+                    })
                     return;
                 })
             })
         } else {
-            res.sendStatus(400)
-            return;
+            res.send({
+                code: 409,
+                message: 'Token has expired'
+            })
 
         }
     })

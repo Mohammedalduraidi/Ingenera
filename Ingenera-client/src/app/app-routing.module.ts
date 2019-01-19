@@ -14,7 +14,7 @@ import { RoleGuardService } from './security/role-guard.service'
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'reset', component: ResetPasswordComponent },
+  { path: 'reset/:token/:email', component: ResetPasswordComponent },
   { path: 'login', component: LoginComponent },
   {
     path: 'bmHome',

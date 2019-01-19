@@ -23,6 +23,7 @@ import {
   MatRippleModule,
   MatDialogModule,
   MatSelectModule,
+  MatCardModule
 } from '@angular/material';
 import { ToastrModule } from 'ng6-toastr-notifications';
 import { BmHomeComponent } from './bussinessManager/bm-home/bm-home.component';
@@ -53,6 +54,7 @@ import { RoleGuardService } from './security/role-guard.service'
     MatDialogModule,
     NoopAnimationsModule,
     MatSelectModule,
+    MatCardModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -66,7 +68,8 @@ import { RoleGuardService } from './security/role-guard.service'
     MatDialogModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCardModule
   ],
   entryComponents: [
     Terms,

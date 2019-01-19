@@ -17,6 +17,7 @@ const login = require('./login');
 router.post('/forgot', passCtrl.forgetPass)
 router.post('/signup', register);
 router.post('/login', login);
+router.post('/reset', passCtrl.resetPass)
 router.get('/logout', baseAuth, logout);
 
 module.exports = router;
