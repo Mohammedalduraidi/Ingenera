@@ -5,19 +5,17 @@ const baseAuth = require('../../access-controll/base-auth');
 /*
     Handlers
 */
-const passCtrl = require('./resetpassword')
-const logout = require('./logout');
+const forgotPassword = require('./forgot-password')
+const resetPassword = require('./resetpassword')
 const register = require('./signUp');
 const login = require('./login');
-
 /*
     Routes
 */
-
-router.post('/forgot', passCtrl.forgetPass)
-router.post('/signup', register);
+router.post('/reset', resetPassword);
+router.post('/forgot', forgotPassword);
 router.post('/login', login);
-router.post('/reset', passCtrl.resetPass)
-router.get('/logout', baseAuth, logout);
+router.post('/signup', register);
 
 module.exports = router;
+

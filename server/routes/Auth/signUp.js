@@ -39,6 +39,7 @@ module.exports = register = async (req, res) => {
 				status: 409,
 				message: 'User Already Exist'
 			});
+			return;
 		} else {
 			hash(password, 10, (err, hash) => {
 				if (err) {

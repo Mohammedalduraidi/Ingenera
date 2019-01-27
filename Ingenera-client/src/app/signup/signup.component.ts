@@ -84,7 +84,7 @@ export class SignupComponent implements OnInit {
             }
           }).catch(err => {
             console.log(err)
-            this.toast.showErorr('Error Occurred')
+            this.toast.showErorr('Error Occurred, please check your internet')
           })
       }
       else {

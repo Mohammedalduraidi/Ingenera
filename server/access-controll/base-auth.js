@@ -1,17 +1,17 @@
 const Jwt = require('jsonwebtoken');
 const config = require('../utils/config');
-const { client } = require('../../Database/index')
+const { users } = require('../../Database/index')
 const createError = require('http-errors');
 
 const confirmUserId = async (res) => {
-	// check if res.locals.companyId is already there
+	// check if res.locals.userId is already there
 	if (res.locals.id) {
 		return;
 	}
 
-	// fetch companyId and attach it if it is not there
-	const userResp = await client.findOne({
-		id: res.locals.user.id,
+	// fetch userId and attach it if it is not there
+	const userResp = await users.findOne({
+		_id: res.locals.user.id,
 	});
 	return (res.locals.user.id = userResp.id);
 };
@@ -19,7 +19,7 @@ const confirmUserId = async (res) => {
 const baseAuthenticator = async (req, res, next) => {
 	try {
 		const token = (req.get('Authorization') || '').split(' ');
-
+		console.log(token)
 		// check for Bearer token
 		if (token[0] !== 'Bearer') {
 			res.render('error', {
@@ -39,11 +39,12 @@ const baseAuthenticator = async (req, res, next) => {
 		await confirmUserId(res);
 		return next();
 	} catch (error) {
+		console.log(error)
 		res.render('error', {
 			message: 'Unauthorized action',
 			error: {
 				status: 401,
-				stack: 'Session expiered \n Please Login '
+				stack: 'Session expiered \n Please Login'
 			}
 		})
 		return next(error);

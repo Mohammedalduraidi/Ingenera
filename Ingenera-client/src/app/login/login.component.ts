@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     axios.post('api/auth/login', { email, password })
       .then(({ data }) => {
-        console.log("data ", data)
+        console.log(data)
         this.loading = false;
         if (data.code === 409) {
           this.toast.showErorr(data.message)
