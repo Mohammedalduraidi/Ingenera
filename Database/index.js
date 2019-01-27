@@ -29,6 +29,24 @@ let Users = new Schema({
 
 });
 
-let users = mongoose.model('Users', Users);
+let Missions = new Schema({
+	companyName: { type: String },
+	isPublished: { type: Boolean },
+	missionTittle: { type: String },
+	phase: { type: String },
+	isASAP: { type: Boolean },
+	adress: { type: String },
+	termsAndCondition: { type: String },
+	acceptTerms: { type: Boolean },
+	experience: { type: String },
+	description: { type: String },
+	keywords: [{
+		type: String
+	}],
+	budget: { type: String }
+})
 
+let users = mongoose.model('Users', Users);
+let missions = mongoose.modelNames('Missions', Missions)
 module.exports.users = users;
+module.exports.missions = missions;

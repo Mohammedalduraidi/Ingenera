@@ -14,11 +14,13 @@ module.exports = login = (req, res) => {
 				code: 409,
 				message: 'User Does Not Exist'
 			});
-			return;
+
 		} else {
 			compare(password, data.password, (err, match) => {
 				if (err) {
+					console.log(err)
 					res.sendStatus(500);
+					return;
 				}
 				if (match) {
 					const token = jwt.sign({
@@ -34,12 +36,14 @@ module.exports = login = (req, res) => {
 							"landing" : data.userType === "bm" ?
 								'bmHome' : 'adminHome'
 					});
+					return;
 				}
 				else {
 					res.send({
 						code: 409,
 						message: 'Password is wrong'
 					})
+					return;
 				}
 			});
 		}

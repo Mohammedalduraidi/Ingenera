@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-const baseAuth = require('../../access-controll/base-auth');
+const express = require('express');
+const router = express.Router();
+
 
 /*
     Handlers
