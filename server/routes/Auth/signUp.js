@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { hash } = require('bcryptjs');
 const config = require('../../utils/config');
-const { users } = require('../../../Database/index');
+const { users } = require('../../../Database/usersSchema')
 // const nodemailer = require('nodemailer');
 
 // var transporter = nodemailer.createTransport({

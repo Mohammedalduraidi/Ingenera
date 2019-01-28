@@ -1,8 +1,7 @@
 const jwt = require('jsonwebtoken');
 const config = require('../../utils/config');
 const { compare } = require('bcryptjs');
-const { users } = require('../../../Database/index');
-
+const { users } = require('../../../Database/usersSchema')
 module.exports = login = (req, res) => {
 	const { email, password } = req.body;
 	users.findOne({ email }, (err, data) => {

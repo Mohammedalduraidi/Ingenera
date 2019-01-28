@@ -1,4 +1,4 @@
-const { users } = require('../../../Database')
+const { users } = require('../../../Database/usersSchema')
 const { hash } = require('bcryptjs');
 module.exports = resetPass = (req, res) => {
     const { token, email, newPass } = req.body;

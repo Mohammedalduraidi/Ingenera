@@ -1,7 +1,7 @@
 const async = require('async');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer')
-const { users } = require('../../../Database')
+const { users } = require('../../../Database/usersSchema')
 
 module.exports = forgetPass = (req, res, next) => {
     const { email } = req.body

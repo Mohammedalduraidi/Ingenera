@@ -10,13 +10,16 @@ router.use('/auth', authController);
 
 
 /*
-	GET mission Page
+  * Get Missions
 */
 
 const Missions = require('./Missions/index');
 router.use('/mission', Missions);
 
 
+/*
+  * security checking
+*/
 router.get('/secure', baseAuth, (req, res) => {
 	const { user } = req;
 	res.send(user);

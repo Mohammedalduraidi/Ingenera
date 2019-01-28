@@ -1,10 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
+
+/*
+    Handlers
+*/
 const addMission = require('./add-mission');
+const updateMission = require('./edit-mission');
 
-router.post('/create', addMission)
+/*
+    Routes
+*/
 
+router.post('/create', addMission);
+router.post('/update', updateMission);
 
 
 

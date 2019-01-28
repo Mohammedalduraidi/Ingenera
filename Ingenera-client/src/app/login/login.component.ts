@@ -39,30 +39,38 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    const { email, password } = this.loginForm.value;
-    this.submitted = true;
 
-    if (this.loginForm.invalid) {
-      return;
-    }
-    this.loading = true;
-    axios.post('api/auth/login', { email, password })
+    axios.post('/api/mission/update', { companyName: "", adress: "", missionTittle: "" })
       .then(({ data }) => {
         console.log(data)
-        this.loading = false;
-        if (data.code === 409) {
-          this.toast.showErorr(data.message)
-        } else {
-          localStorage.setItem("token", data.token)
-          localStorage.setItem("loggedIn", 'true')
-          this.router.navigate([data.routes])
-          this.toast.presentToast(data.message)
-        }
       })
       .catch(err => {
         console.log(err)
-        this.toast.showErorr('Error Occurred, please check your internet')
       })
+    // const { email, password } = this.loginForm.value;
+    // this.submitted = true;
+
+    // if (this.loginForm.invalid) {
+    //   return;
+    // }
+    // this.loading = true;
+    // axios.post('api/auth/login', { email, password })
+    //   .then(({ data }) => {
+    //     console.log(data)
+    //     this.loading = false;
+    //     if (data.code === 409) {
+    //       this.toast.showErorr(data.message)
+    //     } else {
+    //       localStorage.setItem("token", data.token)
+    //       localStorage.setItem("loggedIn", 'true')
+    //       this.router.navigate([data.routes])
+    //       this.toast.presentToast(data.message)
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //     this.toast.showErorr('Error Occurred, please check your internet')
+    //   })
   }
 }
 
